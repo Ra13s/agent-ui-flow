@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+build/
+!docs/demos/first-photo-tutorial/build/
+!docs/demos/first-photo-tutorial/build/**
+.DS_Store
+Thumbs.db
+*.log
+docs/img/private/
+
+# Local skill registrations created by setup scripts
+.claude/
+.agents/

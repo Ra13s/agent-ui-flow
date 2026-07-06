@@ -1,0 +1,29 @@
+name: example-product
+tone:
+  - clear
+  - focused
+  - human
+avoid:
+  - generic_ai_dashboard
+  - meaningless_gradient_cards
+  - thick_side_accent_bars
+  - repeated_summaries
+  - decorative_color_without_information
+tokens:
+  radius:
+    card: 16
+    control: 999
+  color_roles:
+    primary_action: ""
+    success: ""
+    warning: ""
+    quiet_surface: ""
+  typography:
+    page_title_max_px: 48
+    body_text_px: 16
+    compact_panel_title_px: 22
+rules:
+  - Every page has one focal object.
+  - Color must encode state, category, or action.
+  - Do not use cards inside cards.
+  - Do not repeat a label and a headline with the same meaning.

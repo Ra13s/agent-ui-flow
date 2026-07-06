@@ -1,0 +1,37 @@
+# Surfaces and the module registry.
+#
+# Every module has exactly ONE home surface. It renders fully only there; every other appearance
+# is a link (one line + navigation). Surface storyboards are reviewed against this file: an
+# embedded module whose home is elsewhere is a belonging violation.
+# must_not_show records deliberate exclusions.
+# Removed things stay removed until this file changes.
+
+modules:
+  # <module-id>: { home: <page>, brief: "<what it shows in one clause>" }
+  example_module: { home: home, brief: "" }
+
+pages:
+  home:
+    job: ""
+    primary_action: ""
+    must_show: []      # module ids homed here
+    links: []          # module ids that appear as one-line links only
+    must_not_show: []  # deliberate exclusions, binding for reviewers and implementers
+  current_task:
+    job: ""
+    primary_action: ""
+    must_show: []
+    links: []
+    must_not_show: []
+  review:
+    job: ""
+    primary_action: ""
+    must_show: []
+    links: []
+    must_not_show: []
+  progress:
+    job: ""
+    primary_action: ""
+    must_show: []
+    links: []
+    must_not_show: []
