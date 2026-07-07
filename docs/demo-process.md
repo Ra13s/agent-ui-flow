@@ -9,9 +9,91 @@ trail. A reader should not need to open twenty files to understand what happened
 
 A demo is publishable only if it contains all of these stages.
 
+## Required Skills And Scripts
+
+Use these repo tools. Do not replace them with informal equivalents.
+
+- `seeded-image-variants`: run image rounds from real image inputs.
+- `visual-review`: review screenshots, generated batches, and implementation screenshots.
+- `implementation-fidelity`: compare selected generated image vs running UI screenshot.
+- `image-to-ui-implementation`: implement the selected image with a 90-95% visual-match target.
+- `implement-flow`: implement only after a reviewed direction exists.
+- `npm run demo:scaffold -- <demo-name>`: create the required artifact tree.
+- `npm run image:edit -- --image <seed> --prompt-file <prompt> --out-dir <out> --name <name> --n 3`: run the OpenAI Images API edit script.
+- `npm run demo:check -- <demo-name>`: verify that the demo has the required files before publishing.
+
+If any required script or skill is unavailable, stop and fix the tooling before continuing.
+
+## Hard Gates
+
+### Seed Truth
+
+A generated round is only seeded if the seed image is supplied to the image model as an actual
+image input.
+
+Use the bundled script:
+
+```cmd
+npm run image:edit -- --image path\to\seed.png --prompt-file path\to\prompt.md --out-dir docs\demos\<demo>\02-image-round-1\variants --name round-1 --n 3
+```
+
+The script calls OpenAI's Images API directly with `OPENAI_API_KEY`, so the same process works in
+Codex, Claude Code, or a normal terminal. Do not use Codex-only built-in image generation for a
+publishable seeded demo.
+
+A text prompt that describes the screenshot is prompt-only generation. It may be logged as wild
+exploration, but it does not satisfy any seeded-image requirement.
+
+### Implementation Fidelity
+
+After implementation, compare the selected generated image against the running UI screenshot.
+
+The implementation must preserve:
+
+- major layout geometry
+- dominant color direction
+- component shapes and proportions
+- typography hierarchy
+- visible module structure
+- CTA placement
+- spacing strategy
+
+If the implementation is merely "inspired by" the image, the demo fails. Run
+`implementation-fidelity` and log the verdict before publishing.
+
+### Human Validation
+
+A publishable demo must include three human validation checkpoints.
+
+These are not agent reviews. They are explicit user signoffs that the demo is still heading in the
+right direction.
+
+Required checkpoints:
+
+1. After Image Generation Round 2, before implementation starts.
+2. After the first implemented UI passes or nearly passes implementation fidelity, before
+   implementation-seeded image generation starts.
+3. At final publish, after `npm run demo:check -- <demo-name>` passes.
+
+Each checkpoint must be logged in `run-log.md` with:
+
+- date/time
+- artifact reviewed
+- exact user decision: approved, approved with changes, or rejected
+- requested changes, if any
+
+If the user rejects a checkpoint, stop the demo flow and revise the selected direction. Do not keep
+running the pipeline as if approval happened.
+
 ### 1. Initial Problem
 
 Start with a clearly bad or mediocre real UI screenshot.
+
+Before creating demo artifacts, run:
+
+```cmd
+npm run demo:scaffold -- <demo-name>
+```
 
 Document:
 
@@ -26,13 +108,16 @@ product.
 
 ### 2. Image Generation Round 1
 
-Generate at least three UI variants from the initial problem.
+Generate at least three UI variants from the initial problem using the seed image as an actual API
+image input.
 
 The variants must explore different directions. Do not count small color swaps as separate
 directions.
 
 Required:
 
+- source image supplied with `--image`
+- command stored verbatim
 - prompt stored verbatim
 - all generated images saved
 - review output for the whole batch
@@ -42,15 +127,19 @@ Required:
 
 Use the selected Round 1 direction as the seed.
 
-Generate at least three more variants.
+Generate at least three more variants using the selected direction image as an actual API image
+input.
 
 Required:
 
+- source image supplied with `--image`
+- command stored verbatim
 - prompt stored verbatim
 - all generated images saved
 - review output
 - comparison against the Round 1 winner
 - selected direction for implementation
+- human validation before implementation starts
 
 ### 4. Implementation Pass
 
@@ -59,11 +148,16 @@ Implement the selected direction as actual running UI.
 The public demo narrative should show screenshots, not code snippets. Code can exist in the repo,
 but the demo story is image-led.
 
+Use `image-to-ui-implementation`. The selected generated image is the source of truth. Do not
+redesign it during implementation unless a human validation checkpoint changes the direction.
+
 Required:
 
 - implementation instruction stored
 - screenshot of the running UI
 - notes on where implementation intentionally differs from the selected image
+- fidelity review comparing selected image against running UI
+- human validation before using implementation screenshot as the next image seed
 
 ### 5. Implementation-Seeded Image Generation
 
@@ -74,6 +168,8 @@ Generate another set of at least three UI variants that improve the real impleme
 Required:
 
 - source screenshot identified
+- source screenshot supplied with `--image`
+- command stored verbatim
 - prompt stored verbatim
 - all generated images saved
 - review output
@@ -102,6 +198,14 @@ Suggested round focus:
 ### 7. Final Comparison
 
 Show the initial screenshot beside the final screenshot.
+
+Before publishing, run:
+
+```cmd
+npm run demo:check -- <demo-name>
+```
+
+Then get final human validation and log it before committing the demo.
 
 Document:
 

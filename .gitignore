@@ -4,8 +4,6 @@
 node_modules/
 dist/
 build/
-!docs/demos/presentation-hillclimb/build/
-!docs/demos/presentation-hillclimb/build/**
 .DS_Store
 Thumbs.db
 *.log

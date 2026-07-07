@@ -7,7 +7,10 @@
     "node": ">=20"
   },
   "scripts": {
-    "capture:presentation-hillclimb": "node scripts/capture-presentation-hillclimb-demo.mjs"
+    "demo:scaffold": "node scripts/create-demo-scaffold.mjs",
+    "demo:check": "node scripts/check-demo-contract.mjs",
+    "image:edit": "node .skills/seeded-image-variants/scripts/openai-image-edit.mjs",
+    "image:edit:dry": "node .skills/seeded-image-variants/scripts/openai-image-edit.mjs --dry-run"
   },
   "devDependencies": {
     "playwright": "^1.57.0"

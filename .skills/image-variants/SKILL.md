@@ -30,7 +30,8 @@ how you see whether the search is climbing or wandering.
 1. Capture or choose the seed image.
 2. Write the direction prompt: "make this better", "add a menu", "make the grid the hero",
    "calmer, fewer borders", "more energy near the primary action".
-3. Generate 3 or more variants.
+3. Generate 3 or more variants. For publishable demos, use `seeded-image-variants` so the image
+   model receives the seed image through the OpenAI API.
 4. Review each with `visual-review`. Verdict per variant: better / worse / mixed / one useful idea.
 5. Pick the winner, or harvest an idea and stop.
 6. The winner becomes the next seed. Increment the iteration. Repeat.
@@ -62,6 +63,8 @@ chosen: b / carrying forward: top tabs idea from c
 
 - Direction prompts are allowed to be loose ("make this better") — the review step keeps the
   search honest, not the prompt.
+- Prompt-only generation is allowed for invention, but it must be logged as prompt-only. It does
+  not satisfy seeded-image demo requirements.
 - If you want invention, say so clearly: "Invent useful modules for this product."
 - If you want fidelity, give the storyboard and forbid extra product sections.
 - Avoid mascots, fake charts, and decorative scenes unless requested.

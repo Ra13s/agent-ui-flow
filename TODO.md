@@ -1,124 +1,142 @@
 # TODO
 
-Goal: publish one strong demo that proves Agent UI Flow is a hillclimbing workflow, not a static
+Goal: publish one real demo that proves Agent UI Flow is a hillclimbing workflow, not a static
 example gallery.
 
 Read first:
 
 - `docs/demo-process.md`
-- `.skills/image-variants/SKILL.md`
+- `.skills/seeded-image-variants/SKILL.md`
 - `.skills/visual-review/SKILL.md`
+- `.skills/implementation-fidelity/SKILL.md`
+- `.skills/image-to-ui-implementation/SKILL.md`
 - `.skills/implement-flow/SKILL.md`
 
-## WP1 - Remove weak demos
+## WP1 - Clean Invalid Demo
 
 Status: done.
 
-- Removed the photo tutorial demo.
-- Removed the presentation cleanup demo.
-- Removed old capture/generation scripts tied to those demos.
-- Kept the repo demo-free until a full hillclimb exists.
+- Removed the failed demo artifacts.
+- Removed stale demo scripts.
+- Removed public claims that a complete demo exists.
+- Kept the repo demo-free until a valid hillclimb is run.
 
-## WP2 - Choose the first real demo subject
+Why: the removed demo did not use real seed images for the generated rounds, and the implementation
+was not visually faithful to the selected image.
+
+## WP2 - Make Image Generation Portable
 
 Status: done.
 
-Pick a product/screen that is not private and not too specific to one founder's app.
+- Copied the OpenAI Images API edit script into `.skills/seeded-image-variants/scripts/`.
+- Made the script repo-generic.
+- Documented that Claude Code and Codex both use the same API script.
+- Added the hard rule: prompt-only generation is not seeded generation.
+
+## WP3 - Add Implementation Fidelity Gate
+
+Status: done.
+
+- Added `.skills/implementation-fidelity/`.
+- The gate compares selected generated image vs running implementation screenshot.
+- It checks layout, color, component shape, typography, module structure, CTA placement, spacing,
+  and interaction affordance.
+
+## WP3b - Add Image-To-UI Implementation Skill
+
+Status: done.
+
+- Added `.skills/image-to-ui-implementation/`.
+- It turns a selected image into a running page with a 90-95% visual-match target.
+- It explicitly forbids redesign during implementation.
+- It requires screenshot capture and `implementation-fidelity` before the demo can continue.
+
+## WP4 - Choose New Demo Subject
+
+Status: pending.
+
+Pick a fictional product with a bad initial screen that is visually obvious in screenshots.
 
 Requirements:
 
-- has a visibly mediocre or cluttered starting UI
-- has one obvious user task
-- can be implemented as a small static app
-- benefits from image generation exploration
-- can show meaningful improvement over four rounds
+- not Banta-specific
+- not a generic dashboard
+- one clear user task
+- enough visual clutter to make improvement obvious
+- suitable for image generation and later static implementation
 
-Candidate types:
+Possible directions:
 
+- language-practice lesson page
 - public-speaking practice app
-- meal-planning app
-- personal finance onboarding
-- habit tracker daily page
-- photo coaching app only if the start screen is meaningfully messy
+- meal-planning onboarding
+- workout form-coaching screen
+- habit-tracker daily page
 
-Selected: fictional public-speaking practice app, `PitchKit`.
+After choosing, run:
 
-## WP3 - Create the demo scaffold
-
-Status: done.
-
-Create:
-
-```text
-docs/demos/<demo-name>/
-  README.md
-  run-log.md
-  image-ledger.md
-  00-brief.md
-  01-initial/
-  02-image-round-1/
-  03-image-round-2/
-  04-implementation-v1/
-  05-image-round-3-from-implementation/
-  06-implementation-round-1/
-  07-implementation-round-2/
-  08-implementation-round-3/
-  09-implementation-round-4/
-  10-final/
+```cmd
+npm run demo:scaffold -- <demo-name>
 ```
 
-Use `docs/demo-process.md` as the exact contract.
+## WP5 - Run True Seeded Image Round 1
 
-## WP4 - Run image generation round 1
+Status: pending.
 
-Status: done.
-
-- Capture or create the initial bad screen.
+- Create or capture the bad initial screen.
 - Store it in `01-initial/screenshot.png`.
-- Review it in `01-initial/review.md`.
-- Generate at least three distinct directions.
-- Store prompt verbatim in `02-image-round-1/prompt.md`.
-- Store variants in `02-image-round-1/variants/`.
-- Review the batch.
-- Select a winner or hybrid.
-- Update `run-log.md` and `image-ledger.md`.
-
-## WP5 - Run image generation round 2
-
-Status: done.
-
-- Use the selected Round 1 direction as seed.
-- Generate at least three more variants.
-- Review them.
-- Compare against the Round 1 winner.
-- Select the implementation direction.
-- Log everything.
-
-## WP6 - Implement v1
-
-Status: done.
-
-- Implement the selected direction as a small running UI.
-- Store implementation instruction verbatim.
-- Capture screenshot from the running UI.
 - Review it.
-- Log differences from the selected image.
+- Run:
 
-## WP7 - Generate from implementation screenshot
+```cmd
+npm run image:edit -- --image docs\demos\<demo>\01-initial\screenshot.png --prompt-file docs\demos\<demo>\02-image-round-1\prompt.md --out-dir docs\demos\<demo>\02-image-round-1\variants --name round-1 --n 3
+```
 
-Status: done.
+- Review the generated batch.
+- Select a direction and log why.
 
-- Use the v1 implementation screenshot as the seed.
-- Generate at least three more variants.
-- Review them.
-- Select safe improvements to apply manually.
-- Log decisions.
+## WP6 - Run True Seeded Image Round 2
 
-## WP8 - Run four implementation improvement rounds
+Status: pending.
 
-Status: done.
+- Use the selected Round 1 image as the actual `--image` seed.
+- Generate at least three variants with `npm run image:edit`.
+- Review and compare against Round 1.
+- Select implementation direction.
+- Human validation checkpoint 1: ask the user to approve, reject, or change the selected direction
+  before implementation starts. Log the decision in `run-log.md`.
 
-Each round must include screenshot, review, comparison, changes, and new screenshot.
+## WP7 - Implement With Fidelity
+
+Status: pending.
+
+- Use `image-to-ui-implementation` to implement the selected direction as running UI.
+- Capture screenshot.
+- Run implementation-fidelity against the selected image.
+- Fix until verdict is `pass` or document why the selected direction changed.
+- Human validation checkpoint 2: ask the user to approve, reject, or change the implemented
+  direction before using it as the next image seed. Log the decision in `run-log.md`.
+
+## WP8 - Implementation-Seeded Image Round
+
+Status: pending.
+
+- Use the running implementation screenshot as the actual `--image` seed.
+- Generate at least three variants with `npm run image:edit`.
+- Review.
+- Select concrete improvements to apply manually.
+
+## WP9 - Four Manual Improvement Rounds
+
+Status: pending.
+
+Each round must include:
+
+- before screenshot
+- visual review
+- implementation changes
+- after screenshot
+- before/after comparison verdict
 
 Rounds:
 
@@ -127,32 +145,28 @@ Rounds:
 3. spacing, typography, and contrast
 4. interaction affordances and final consistency
 
-## WP9 - Final public demo writeup
+## WP10 - Publish Demo
 
-Status: done.
+Status: pending.
 
-Create a demo `README.md` that can be read without opening every raw file.
+- Write demo `README.md` as an image-led story.
+- Link raw prompt, review, decision, and ledger files.
+- Show initial vs final clearly.
+- Run final doc review.
+- Run:
 
-It must show images inline and explain:
+```cmd
+npm run demo:check -- <demo-name>
+```
 
-- where the UI started
-- what generated variants explored
-- what reviewers caught
-- what was selected
-- what changed in implementation
-- how each round improved or regressed
-- final before/after
-- remaining weaknesses
+- Human validation checkpoint 3: ask the user for final publish approval after the contract check
+  passes. Log the decision in `run-log.md`.
+- Commit and push only after every artifact is present.
 
 ## Guards
 
 - No private product screenshots.
 - No API keys or local absolute paths.
-- No code snippets in the public demo narrative.
+- No code snippets in public demo narrative.
 - Every artifact that influences the final UI must be logged.
-- If image generation is unavailable, stop. Do not fake it with manual screenshots.
-
-## Next Work
-
-- Run an external review pass on `docs/demos/presentation-hillclimb/README.md`.
-- Add a second demo with a different product category after the first demo has been reviewed.
+- If image-input generation is unavailable, stop. Do not fake it.

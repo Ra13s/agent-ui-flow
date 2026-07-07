@@ -100,17 +100,24 @@ it does not count.
 
 ## Demo
 
-Start here:
+No demo is currently published.
 
-- [Presentation Hillclimb](docs/demos/presentation-hillclimb/README.md)
+The first public demo must use the portable path this repo is built around:
 
-It shows the full chain: bad UI, generated alternatives, reviews, second generated round,
-implementation, implementation-seeded generation, four implementation improvement rounds, and final
-comparison.
+- real screenshots or reference images as seed images
+- the bundled OpenAI Images API script, so Claude Code and Codex can run the same workflow
+- generated image files saved in the repo
+- visual review on each batch
+- implementation from the selected generated direction
+- fidelity review comparing the selected image against the running UI
+- four screenshot/review/fix/compare rounds
+
+A prompt-only generated image is allowed for early invention, but it cannot be called a seeded
+image round.
 
 ## Current Status
 
-The first complete demo is published under `docs/demos/presentation-hillclimb/`.
+The workflow docs and skills are in place. The first publishable demo is still to be run.
 
 ## License
 

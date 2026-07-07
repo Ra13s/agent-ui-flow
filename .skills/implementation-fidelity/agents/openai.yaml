@@ -1,0 +1,3 @@
+display_name: "Implementation Fidelity"
+short_description: "Check whether code matches the selected UI image."
+default_prompt: "Use implementation-fidelity to compare the selected concept image against the running implementation screenshot."

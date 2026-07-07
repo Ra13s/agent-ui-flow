@@ -1,0 +1,4 @@
+display_name: "Seeded Image Variants"
+short_description: "Generate UI variants from real seed screenshots."
+default_prompt: "Use seeded-image-variants to generate 3 UI variants from this screenshot and log the command, prompt, and outputs."
+
