@@ -1,6 +1,10 @@
 # Demos
 
-No demo is currently published.
+Published demos:
+
+- [PitchLab Coach](pitchlab-coach/README.md) - a full screenshot-to-image-to-implementation
+  hillclimb, with generated variants, reviews, implementation screenshots, comparison rounds, and
+  logs.
 
 Do not add partial examples to this folder. Partial examples make the repo look like a collection of
 claims instead of a repeatable process.
