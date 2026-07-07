@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PitchLab Coach - Implementation V1</title>
+    <style>
+      :root {
+        --ink: #111326;
+        --muted: #59607b;
+        --line: #dfe3f3;
+        --violet: #6452f3;
+        --violet-soft: #f0edff;
+        --coral: #ff603f;
+        --orange: #df6b08;
+        --green: #10966d;
+        --paper: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 50% 40%, rgba(110, 86, 245, 0.07), transparent 42%),
+          #fff;
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: 260px 1fr 260px;
+        align-items: center;
+        height: 88px;
+        padding: 0 36px;
+        border-bottom: 1px solid #e3e5ef;
+      }
+
+      .brand,
+      .streak,
+      .nav,
+      .nav a,
+      .eyebrow,
+      .time,
+      .focus {
+        display: flex;
+        align-items: center;
+      }
+
+      .brand {
+        gap: 14px;
+        font-size: 28px;
+        font-weight: 850;
+        letter-spacing: -0.03em;
+      }
+
+      .logo {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        border-radius: 13px;
+        color: white;
+        font-weight: 900;
+        background: linear-gradient(145deg, #725cff, #5948dd);
+        box-shadow: 0 10px 24px rgba(100, 82, 243, 0.24);
+      }
+
+      .nav {
+        justify-content: center;
+        gap: 22px;
+      }
+
+      .nav a {
+        min-width: 76px;
+        height: 48px;
+        justify-content: center;
+        border-radius: 18px;
+        color: #252844;
+        font-size: 18px;
+        text-decoration: none;
+      }
+
+      .nav a.active {
+        color: var(--violet);
+        background: var(--violet-soft);
+      }
+
+      .streak {
+        justify-self: end;
+        height: 48px;
+        padding: 0 22px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        color: #4f536f;
+        font-size: 19px;
+        gap: 8px;
+      }
+
+      main {
+        padding: 34px 68px 42px;
+      }
+
+      .panel {
+        min-height: 810px;
+        border: 1px solid #e8ebf5;
+        border-radius: 27px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow:
+          0 20px 60px rgba(33, 30, 61, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        overflow: hidden;
+      }
+
+      .hero {
+        display: grid;
+        justify-items: center;
+        padding: 30px 70px 0;
+        text-align: center;
+      }
+
+      .eyebrow {
+        justify-content: center;
+        height: 40px;
+        padding: 0 21px;
+        border-radius: 15px;
+        background: var(--violet-soft);
+        color: var(--violet);
+        font-size: 17px;
+        font-weight: 850;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        font-size: 50px;
+        line-height: 1.04;
+        letter-spacing: -0.055em;
+      }
+
+      .subhead {
+        margin: 0;
+        max-width: 780px;
+        color: #68708a;
+        font-size: 21px;
+        line-height: 1.38;
+      }
+
+      .voice {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: min(900px, 80vw);
+        height: 148px;
+        margin-top: 18px;
+      }
+
+      .wave {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 880px;
+        height: 118px;
+        transform: translate(-50%, -50%);
+        opacity: 0.8;
+      }
+
+      .wave::before,
+      .wave::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 350px;
+        height: 90px;
+        transform: translateY(-50%);
+        background:
+          radial-gradient(ellipse at center, transparent 0 28%, rgba(255, 255, 255, 0.6) 29% 34%, transparent 35%),
+          repeating-linear-gradient(
+            90deg,
+            transparent 0 12px,
+            color-mix(in srgb, var(--wave-a), transparent 8%) 12px 17px,
+            transparent 17px 26px
+          );
+        mask-image: radial-gradient(ellipse at center, #000 0 62%, transparent 72%);
+      }
+
+      .wave::before {
+        left: 0;
+        --wave-a: #7767f3;
+      }
+
+      .wave::after {
+        right: 0;
+        --wave-a: #ff8a70;
+      }
+
+      .wave span {
+        display: none;
+      }
+
+      .mic-wrap {
+        position: relative;
+        display: grid;
+        width: 156px;
+        height: 156px;
+        place-items: center;
+        border-radius: 50%;
+        background: white;
+        box-shadow:
+          0 0 0 22px rgba(103, 82, 243, 0.05),
+          0 0 0 42px rgba(103, 82, 243, 0.035),
+          0 24px 42px rgba(103, 82, 243, 0.18);
+      }
+
+      .mic-wrap::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 45% 35%, #7f70ff, #5d4bec);
+      }
+
+      .mic-svg {
+        position: relative;
+        z-index: 1;
+        width: 82px;
+        height: 82px;
+        color: white;
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        min-width: 318px;
+        height: 66px;
+        margin-top: 4px;
+        border: 0;
+        border-radius: 19px;
+        color: white;
+        background: linear-gradient(180deg, #ff704f 0%, var(--coral) 100%);
+        box-shadow: 0 16px 28px rgba(255, 96, 63, 0.22);
+        font: inherit;
+        font-size: 24px;
+        font-weight: 850;
+      }
+
+      .privacy {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 16px 0 32px;
+        color: #69718a;
+        font-size: 16px;
+      }
+
+      .flow-title {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        width: 82%;
+        gap: 20px;
+        color: #686e8a;
+        font-size: 24px;
+      }
+
+      .flow-title::before,
+      .flow-title::after {
+        content: "";
+        height: 1px;
+        background: #dfe2ee;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: 1fr 44px 1fr 44px 1fr;
+        align-items: center;
+        width: 88%;
+        margin: 22px auto 6px;
+      }
+
+      .step {
+        position: relative;
+        display: grid;
+        grid-template-columns: 98px 1fr;
+        gap: 20px;
+        min-height: 184px;
+        align-items: center;
+        padding: 24px 28px;
+        border: 1px solid #e6e9f3;
+        border-radius: 18px;
+        background: white;
+        box-shadow: 0 8px 22px rgba(33, 30, 61, 0.025);
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .step:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(33, 30, 61, 0.055);
+      }
+
+      .step-icon {
+        display: grid;
+        width: 96px;
+        height: 96px;
+        place-items: center;
+        border-radius: 50%;
+      }
+
+      .step-icon.purple {
+        background: #f0edff;
+        color: var(--violet);
+      }
+
+      .step-icon.orange {
+        background: #fff0e3;
+        color: var(--orange);
+      }
+
+      .step-icon.green {
+        background: #e7f8f1;
+        color: var(--green);
+      }
+
+      .num {
+        position: absolute;
+        top: 28px;
+        left: 82px;
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        color: white;
+        font-weight: 850;
+      }
+
+      .num.purple { background: var(--violet); }
+      .num.orange { background: var(--coral); }
+      .num.green { background: var(--green); }
+
+      .step h2 {
+        margin: 0 0 10px;
+        font-size: 24px;
+        letter-spacing: -0.02em;
+      }
+
+      .step p {
+        margin: 0;
+        color: #58617e;
+        font-size: 18px;
+        line-height: 1.42;
+      }
+
+      .time {
+        width: fit-content;
+        height: 35px;
+        margin-top: 18px;
+        padding: 0 14px;
+        border-radius: 13px;
+        font-size: 18px;
+        font-weight: 750;
+      }
+
+      .time.purple {
+        background: var(--violet-soft);
+        color: var(--violet);
+      }
+
+      .time.orange {
+        background: #fff0e3;
+        color: var(--orange);
+      }
+
+      .time.green {
+        background: #e7f8f1;
+        color: var(--green);
+      }
+
+      .arrow {
+        justify-self: center;
+        color: #b1b7c7;
+        font-size: 52px;
+      }
+
+      .cta-icon {
+        width: 28px;
+        height: 28px;
+        color: white;
+      }
+
+      svg {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="logo">P</span>PitchLab</div>
+      <nav class="nav" aria-label="Primary">
+        <a class="active" href="#">Today</a>
+        <a href="#">Practice</a>
+        <a href="#">Progress</a>
+        <a href="#">Library</a>
+        <a href="#">Profile</a>
+      </nav>
+      <div class="streak">🔥 <span>4-day streak</span></div>
+    </header>
+
+    <main>
+      <section class="panel" aria-labelledby="workout-title">
+        <div class="hero">
+          <div class="eyebrow">Today's workout</div>
+          <h1 id="workout-title">Your 7-minute speaking workout</h1>
+          <p class="subhead">Build confidence and reduce filler words with one focused 7-minute session.</p>
+
+          <div class="voice" aria-hidden="true">
+            <div class="wave">
+              <span style="--h: 22; --c1: #ede9ff; --c2: #dcd5ff"></span>
+              <span style="--h: 38; --c1: #e8e2ff; --c2: #c7bdff"></span>
+              <span style="--h: 54; --c1: #ded6ff; --c2: #aa9dff"></span>
+              <span style="--h: 70; --c1: #d1c5ff; --c2: #927eff"></span>
+              <span style="--h: 44; --c1: #d9cbff; --c2: #a689ff"></span>
+              <span style="--h: 60; --c1: #dfbbfb; --c2: #cc86f0"></span>
+              <span style="--h: 84; --c1: #edb1ec; --c2: #d96bd8"></span>
+              <span style="--h: 50; --c1: #f6b8dc; --c2: #ef87bb"></span>
+              <span style="--h: 66; --c1: #ffb2c5; --c2: #ff7895"></span>
+              <span style="--h: 82; --c1: #ffb3b5; --c2: #ff745f"></span>
+              <span style="--h: 58; --c1: #ffc0b3; --c2: #ff8a64"></span>
+              <span style="--h: 42; --c1: #ffd2c5; --c2: #ffa77f"></span>
+              <span style="--h: 28; --c1: #ffe1d8; --c2: #ffc2a4"></span>
+            </div>
+            <div class="mic-wrap">
+              <svg class="mic-svg" viewBox="0 0 64 64" aria-hidden="true">
+                <rect x="21" y="8" width="22" height="34" rx="11" fill="currentColor"/>
+                <path d="M14 30c0 10 8 18 18 18s18-8 18-18" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <path d="M32 48v8M22 56h20" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <button class="cta" type="button">
+            <svg class="cta-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="23" y="10" width="18" height="30" rx="9" fill="currentColor"/>
+              <path d="M15 30c0 10 7 18 17 18s17-8 17-18" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+              <path d="M32 48v8M24 56h16" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+            Start daily practice
+          </button>
+          <div class="privacy">
+            <span aria-hidden="true">♢</span>
+            Private by default.
+          </div>
+
+          <div class="flow-title">Your 3-step flow</div>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <span class="num purple">1</span>
+            <div class="step-icon purple" aria-hidden="true">
+              <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+                <path d="M26 13c-9 4-13 12-13 24 0 8 5 8 10 2 4-5 4-13 3-26Z" fill="currentColor" opacity=".9"/>
+                <path d="M32 13c9 4 13 12 13 24 0 8-5 8-10 2-4-5-4-13-3-26Z" fill="currentColor" opacity=".9"/>
+                <path d="M29 12v35" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h2>Warm-up</h2>
+              <p>Breathe, posture,<br />and volume</p>
+              <div class="time purple">1-2 min</div>
+            </div>
+          </article>
+
+          <div class="arrow">→</div>
+
+          <article class="step">
+            <span class="num orange">2</span>
+            <div class="step-icon orange" aria-hidden="true">
+              <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+                <circle cx="29" cy="29" r="18" stroke="currentColor" stroke-width="5"/>
+                <circle cx="29" cy="29" r="7" fill="currentColor"/>
+                <path d="m33 25 11-11m-4 0h4v4" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h2>Drill</h2>
+              <p>Answer a question<br />with fewer filler words</p>
+              <div class="time orange">3-4 min</div>
+            </div>
+          </article>
+
+          <div class="arrow">→</div>
+
+          <article class="step">
+            <span class="num green">3</span>
+            <div class="step-icon green" aria-hidden="true">
+              <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+                <path d="M19 17h20v26H19z" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M24 17c1-5 9-5 10 0" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                <path d="m24 30 5 5 9-11" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h2>Review</h2>
+              <p>See feedback and<br />refine your delivery</p>
+              <div class="time green">1-2 min</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

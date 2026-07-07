@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PitchLab Coach - Bad Initial Screen</title>
+    <style>
+      :root {
+        --ink: #17151f;
+        --muted: #6d667a;
+        --border: #dcd7ee;
+        --violet: #6c5ce7;
+        --coral: #ff6542;
+        --green: #18a866;
+        --yellow: #f4bd36;
+        --teal: #36b6a8;
+        --paper: #ffffff;
+        --wash: #f7f5ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #fff 0%, #f8f6ff 100%);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .shell {
+        min-height: 100vh;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 42px;
+        border-bottom: 1px solid #ece8f6;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 28px;
+        font-weight: 900;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: 14px;
+        background: var(--violet);
+        color: white;
+      }
+
+      nav {
+        display: flex;
+        gap: 10px;
+      }
+
+      nav span,
+      .pill {
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        font-weight: 750;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 22px;
+        padding: 30px 42px 42px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 52px;
+        line-height: 0.95;
+        letter-spacing: -1px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 27px;
+      }
+
+      h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .card {
+        border: 2px solid var(--border);
+        border-radius: 24px;
+        background: var(--paper);
+        box-shadow: 0 18px 42px rgba(50, 38, 95, 0.08);
+      }
+
+      .hero {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+      }
+
+      .duplicate-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .badge {
+        padding: 8px 12px;
+        border-radius: 12px;
+        background: #f2efff;
+        color: var(--violet);
+        font-weight: 850;
+      }
+
+      .workout {
+        display: grid;
+        gap: 16px;
+        padding: 24px;
+      }
+
+      .steps {
+        display: grid;
+        gap: 12px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 58px 1fr auto;
+        gap: 16px;
+        align-items: center;
+        padding: 18px;
+        border: 2px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+      }
+
+      .step:nth-child(2) {
+        border-left: 8px solid var(--coral);
+        background: #fff8f5;
+      }
+
+      .icon {
+        display: grid;
+        width: 52px;
+        height: 52px;
+        place-items: center;
+        border-radius: 18px;
+        color: white;
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .i1 { background: var(--green); }
+      .i2 { background: var(--coral); }
+      .i3 { background: var(--yellow); color: #2f2600; }
+
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 15px 22px;
+        font: inherit;
+        font-weight: 900;
+      }
+
+      .primary {
+        background: var(--coral);
+        color: white;
+        box-shadow: 0 12px 24px rgba(255, 101, 66, 0.28);
+      }
+
+      .secondary {
+        background: #f2efff;
+        color: var(--violet);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .mini {
+        min-height: 124px;
+        padding: 18px;
+      }
+
+      .bars {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .bar {
+        height: 13px;
+        border-radius: 999px;
+        background: #eeeaf8;
+        overflow: hidden;
+      }
+
+      .bar span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+      }
+
+      .right {
+        display: grid;
+        gap: 16px;
+      }
+
+      .timer {
+        display: grid;
+        gap: 8px;
+        padding: 22px;
+        background: #121018;
+        color: white;
+      }
+
+      .timer p {
+        color: #cfc8dc;
+      }
+
+      .timer .time {
+        font-size: 48px;
+        font-weight: 900;
+      }
+
+      .note {
+        padding: 20px;
+        border-left: 8px solid var(--teal);
+      }
+
+      .coach {
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 14px;
+        padding: 18px;
+        background: var(--wash);
+      }
+
+      .avatar {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--yellow);
+        font-weight: 950;
+      }
+
+      footer {
+        padding: 0 42px 34px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <div class="brand"><span class="brand-mark">P</span>PitchLab</div>
+        <nav>
+          <span>Today</span>
+          <span>Practice</span>
+          <span>Progress</span>
+          <span>Library</span>
+          <span>Profile</span>
+        </nav>
+        <span class="pill">🔥 4-day streak</span>
+      </header>
+
+      <main>
+        <section class="card hero">
+          <div class="duplicate-row">
+            <span class="badge">Today</span>
+            <span class="badge">Warm-up</span>
+            <span class="badge">5-10 min</span>
+            <span class="badge">Confidence + filler words</span>
+            <span class="badge">Current task</span>
+          </div>
+          <h1>Your daily speaking workout</h1>
+          <p>
+            Practice confidence, filler-word control, pacing, audience eye contact, and answer shape
+            before your next presentation.
+          </p>
+          <div class="cta-row">
+            <button class="primary">Start daily practice</button>
+            <button class="secondary">Start warm-up</button>
+            <button class="secondary">See progress</button>
+          </div>
+        </section>
+
+        <aside class="right">
+          <section class="card timer">
+            <h2>Session timer</h2>
+            <div class="time">07:00</div>
+            <p>Do the same 7 minute confidence sprint you saw above.</p>
+          </section>
+          <section class="card coach">
+            <div class="avatar">AI</div>
+            <div>
+              <h3>Coach says</h3>
+              <p>Try to sound calm, confident, brief, focused, warm, grounded, crisp, and memorable.</p>
+            </div>
+          </section>
+        </aside>
+
+        <section class="card workout">
+          <h2>Daily Plan: Confidence + filler words + pacing</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="icon i1">1</div>
+              <div>
+                <h3>Warm-up: breathe, posture, volume</h3>
+                <p>Same start as above, but with a different label and slightly different wording.</p>
+              </div>
+              <span class="pill">ready</span>
+            </div>
+            <div class="step">
+              <div class="icon i2">2</div>
+              <div>
+                <h3>Active drill: investor update</h3>
+                <p>Reduce filler words while answering a tough follow-up question.</p>
+              </div>
+              <button class="primary">Start this</button>
+            </div>
+            <div class="step">
+              <div class="icon i3">3</div>
+              <div>
+                <h3>Review: score, transcript, confidence, filler words</h3>
+                <p>Locked until you finish. Also repeated below in the progress cards.</p>
+              </div>
+              <span class="pill">locked</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid">
+          <div class="card mini">
+            <h3>Confidence score</h3>
+            <p>Current 68 / target 72 / daily target also listed above</p>
+            <div class="bars"><div class="bar"><span style="width: 68%; background: var(--violet)"></span></div></div>
+          </div>
+          <div class="card mini">
+            <h3>Filler words</h3>
+            <p>12 per minute, repeated as today's focus</p>
+            <div class="bars"><div class="bar"><span style="width: 76%; background: var(--coral)"></span></div></div>
+          </div>
+          <div class="card mini">
+            <h3>Pacing</h3>
+            <p>Too fast in opening, too slow in close</p>
+            <div class="bars"><div class="bar"><span style="width: 54%; background: var(--teal)"></span></div></div>
+          </div>
+          <div class="card mini">
+            <h3>Eye contact</h3>
+            <p>Estimated from webcam permission status</p>
+            <div class="bars"><div class="bar"><span style="width: 43%; background: var(--yellow)"></span></div></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="footer-grid">
+          <div class="card note">
+            <h3>After practice</h3>
+            <p>You will see your transcript, best moment, worst filler pattern, confidence score, and next step.</p>
+          </div>
+          <div class="card note">
+            <h3>Why today</h3>
+            <p>Because confidence and filler words are both your focus today, as stated in several places.</p>
+          </div>
+          <div class="card note">
+            <h3>Upcoming</h3>
+            <p>Panel, toast, demo day, all-hands, negotiation, and leadership intro.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
