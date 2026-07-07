@@ -23,6 +23,16 @@ Run from the repo root:
 node .skills\seeded-image-variants\scripts\openai-image-edit.mjs --image path\to\seed.png --prompt-file path\to\prompt.txt --out-dir docs\demos\<demo>\02-image-round-1\variants --name round-1 --n 3
 ```
 
+For multiple single-screen directions, use the batch runner instead of hand-running one command per
+variant:
+
+```cmd
+npm run image:batch -- docs\demos\<demo>\02-image-round-1\batch.json --concurrency 3
+```
+
+Use separate jobs in one batch when each direction needs its own prompt. Do not manually run three
+near-identical `n=1` commands unless the batch runner is unavailable.
+
 Dry run:
 
 ```cmd
@@ -46,7 +56,9 @@ Options:
 
 1. Capture or choose the seed image.
 2. Save the prompt verbatim.
-3. Run the script with one or more `--image` inputs.
+3. Run a batched generation command.
+   - Use `npm run image:edit -- ... --n 3` when one prompt can produce the whole batch cleanly.
+   - Use `npm run image:batch -- <batch.json>` when the round needs multiple direction-specific prompts.
 4. Save generated images in the demo folder.
 5. Run visual review on the variants.
 6. Record which variant won and why.
@@ -76,7 +88,7 @@ Every seeded generation round must record:
 
 - seed image path
 - prompt path
-- command used
+- command used, preferably one batch command for a multi-variant round
 - output image paths
 - review path
 - selected image or rejected status

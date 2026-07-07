@@ -18,7 +18,8 @@ weak product identity.
 ## 2. Seeded Image Round 1
 
 The first API batch produced contact sheets, which was useful but invalid as an implementation seed.
-The flow caught that and reran the round as separate single-screen generations.
+The flow caught that. The corrected repo path is a single batch manifest with three
+direction-specific prompts, recorded in the audit trail.
 
 Selected Round 1 direction:
 

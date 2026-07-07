@@ -1,0 +1,25 @@
+{
+  "defaults": {
+    "images": ["source-screenshot.png"],
+    "outDir": "variants",
+    "envFile": "../../../../.env.local",
+    "model": "gpt-image-2",
+    "size": "1536x1024",
+    "quality": "medium",
+    "n": 1
+  },
+  "jobs": [
+    {
+      "name": "pitchlab-r3-polish",
+      "promptFile": "prompt-single-01-polish.md"
+    },
+    {
+      "name": "pitchlab-r3-less-clutter",
+      "promptFile": "prompt-single-02-less-clutter.md"
+    },
+    {
+      "name": "pitchlab-r3-focus",
+      "promptFile": "prompt-single-03-stronger-focus.md"
+    }
+  ]
+}

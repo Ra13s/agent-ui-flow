@@ -10,6 +10,8 @@
     "demo:scaffold": "node scripts/create-demo-scaffold.mjs",
     "demo:check": "node scripts/check-demo-contract.mjs",
     "capture": "node scripts/capture-page.mjs",
+    "image:batch": "node scripts/batch-image-edits.mjs",
+    "image:batch:dry": "node scripts/batch-image-edits.mjs --dry-run",
     "image:edit": "node .skills/seeded-image-variants/scripts/openai-image-edit.mjs",
     "image:edit:dry": "node .skills/seeded-image-variants/scripts/openai-image-edit.mjs --dry-run"
   },

@@ -115,6 +115,13 @@ Decision: switch to three separate `n=1` calls with one direction per prompt:
 - `02-image-round-1/prompt-single-02-path.md`
 - `02-image-round-1/prompt-single-03-sprint.md`
 
+Post-demo tooling correction: this should now be run with the batch manifest instead of three
+hand-run commands:
+
+```cmd
+npm run image:batch -- docs\demos\pitchlab-coach\02-image-round-1\batch-single-screen.json --concurrency 3
+```
+
 ## 2026-07-07 - Round 1 single-screen variants
 
 Generated three separate seeded variants:
@@ -123,6 +130,12 @@ Generated three separate seeded variants:
 npm run image:edit -- --image docs\demos\pitchlab-coach\01-initial\screenshot.png --prompt-file docs\demos\pitchlab-coach\02-image-round-1\prompt-single-01-focused-card.md --out-dir docs\demos\pitchlab-coach\02-image-round-1\variants --name pitchlab-r1-focused --n 1
 npm run image:edit -- --image docs\demos\pitchlab-coach\01-initial\screenshot.png --prompt-file docs\demos\pitchlab-coach\02-image-round-1\prompt-single-02-path.md --out-dir docs\demos\pitchlab-coach\02-image-round-1\variants --name pitchlab-r1-path --n 1
 npm run image:edit -- --image docs\demos\pitchlab-coach\01-initial\screenshot.png --prompt-file docs\demos\pitchlab-coach\02-image-round-1\prompt-single-03-sprint.md --out-dir docs\demos\pitchlab-coach\02-image-round-1\variants --name pitchlab-r1-sprint --n 1
+```
+
+Correct current command:
+
+```cmd
+npm run image:batch -- docs\demos\pitchlab-coach\02-image-round-1\batch-single-screen.json --concurrency 3
 ```
 
 Output:
@@ -145,6 +158,12 @@ Commands:
 npm run image:edit -- --image docs\demos\pitchlab-coach\02-image-round-1\variants\pitchlab-r1-focused-2026-07-07T17-36-14-659Z-01.png --prompt-file docs\demos\pitchlab-coach\03-image-round-2\prompt-single-01-refine.md --out-dir docs\demos\pitchlab-coach\03-image-round-2\variants --name pitchlab-r2-refine --n 1
 npm run image:edit -- --image docs\demos\pitchlab-coach\02-image-round-1\variants\pitchlab-r1-focused-2026-07-07T17-36-14-659Z-01.png --prompt-file docs\demos\pitchlab-coach\03-image-round-2\prompt-single-02-premium.md --out-dir docs\demos\pitchlab-coach\03-image-round-2\variants --name pitchlab-r2-premium --n 1
 npm run image:edit -- --image docs\demos\pitchlab-coach\02-image-round-1\variants\pitchlab-r1-focused-2026-07-07T17-36-14-659Z-01.png --prompt-file docs\demos\pitchlab-coach\03-image-round-2\prompt-single-03-voice-object.md --out-dir docs\demos\pitchlab-coach\03-image-round-2\variants --name pitchlab-r2-voice --n 1
+```
+
+Correct current command:
+
+```cmd
+npm run image:batch -- docs\demos\pitchlab-coach\03-image-round-2\batch.json --concurrency 3
 ```
 
 Output:
@@ -231,6 +250,12 @@ Commands:
 npm run image:edit -- --image docs\demos\pitchlab-coach\05-image-round-3-from-implementation\source-screenshot.png --prompt-file docs\demos\pitchlab-coach\05-image-round-3-from-implementation\prompt-single-01-polish.md --out-dir docs\demos\pitchlab-coach\05-image-round-3-from-implementation\variants --name pitchlab-r3-polish --n 1
 npm run image:edit -- --image docs\demos\pitchlab-coach\05-image-round-3-from-implementation\source-screenshot.png --prompt-file docs\demos\pitchlab-coach\05-image-round-3-from-implementation\prompt-single-02-less-clutter.md --out-dir docs\demos\pitchlab-coach\05-image-round-3-from-implementation\variants --name pitchlab-r3-less-clutter --n 1
 npm run image:edit -- --image docs\demos\pitchlab-coach\05-image-round-3-from-implementation\source-screenshot.png --prompt-file docs\demos\pitchlab-coach\05-image-round-3-from-implementation\prompt-single-03-stronger-focus.md --out-dir docs\demos\pitchlab-coach\05-image-round-3-from-implementation\variants --name pitchlab-r3-focus --n 1
+```
+
+Correct current command:
+
+```cmd
+npm run image:batch -- docs\demos\pitchlab-coach\05-image-round-3-from-implementation\batch.json --concurrency 3
 ```
 
 Output:

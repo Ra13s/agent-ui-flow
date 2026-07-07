@@ -20,6 +20,8 @@ Use these repo tools. Do not replace them with informal equivalents.
 - `implement-flow`: implement only after a reviewed direction exists.
 - `npm run demo:scaffold -- <demo-name>`: create the required artifact tree.
 - `npm run image:edit -- --image <seed> --prompt-file <prompt> --out-dir <out> --name <name> --n 3`: run the OpenAI Images API edit script.
+- `npm run image:batch -- docs\demos\<demo>\<round>\batch.json --concurrency 3`: run multiple
+  direction-specific image-edit jobs as one batch.
 - `npm run demo:check -- <demo-name>`: verify that the demo has the required files before publishing.
 
 If any required script or skill is unavailable, stop and fix the tooling before continuing.
@@ -114,6 +116,21 @@ image input.
 The variants must explore different directions. Do not count small color swaps as separate
 directions.
 
+Default command shape:
+
+```cmd
+npm run image:edit -- --image docs\demos\<demo>\01-initial\screenshot.png --prompt-file docs\demos\<demo>\02-image-round-1\prompt.md --out-dir docs\demos\<demo>\02-image-round-1\variants --name round-1 --n 3
+```
+
+If the image model returns contact sheets or keeps merging directions into one canvas, create three
+direction-specific prompt files and run them as one batch:
+
+```cmd
+npm run image:batch -- docs\demos\<demo>\02-image-round-1\batch.json --concurrency 3
+```
+
+Do not hand-run three separate one-off commands for a normal demo round.
+
 Required:
 
 - source image supplied with `--image`
@@ -129,6 +146,12 @@ Use the selected Round 1 direction as the seed.
 
 Generate at least three more variants using the selected direction image as an actual API image
 input.
+
+Use one batch command for this round when prompts are direction-specific:
+
+```cmd
+npm run image:batch -- docs\demos\<demo>\03-image-round-2\batch.json --concurrency 3
+```
 
 Required:
 
@@ -164,6 +187,12 @@ Required:
 Use the implemented UI screenshot as a new seed.
 
 Generate another set of at least three UI variants that improve the real implementation.
+
+Use one batch command for this round when prompts are direction-specific:
+
+```cmd
+npm run image:batch -- docs\demos\<demo>\05-image-round-3-from-implementation\batch.json --concurrency 3
+```
 
 Required:
 

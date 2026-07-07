@@ -1,0 +1,25 @@
+{
+  "defaults": {
+    "images": ["../02-image-round-1/variants/pitchlab-r1-focused-2026-07-07T17-36-14-659Z-01.png"],
+    "outDir": "variants",
+    "envFile": "../../../../.env.local",
+    "model": "gpt-image-2",
+    "size": "1536x1024",
+    "quality": "medium",
+    "n": 1
+  },
+  "jobs": [
+    {
+      "name": "pitchlab-r2-refine",
+      "promptFile": "prompt-single-01-refine.md"
+    },
+    {
+      "name": "pitchlab-r2-premium",
+      "promptFile": "prompt-single-02-premium.md"
+    },
+    {
+      "name": "pitchlab-r2-voice",
+      "promptFile": "prompt-single-03-voice-object.md"
+    }
+  ]
+}
