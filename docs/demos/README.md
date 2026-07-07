@@ -1,15 +1,17 @@
 # Demos
 
-Each demo folder should contain the full artifact chain described in
-[`docs/demo-process.md`](../demo-process.md).
+Published demo:
 
-Start with one complete demo before adding more examples. The first complete trace is
-`first-photo-tutorial/`.
+- [Presentation Hillclimb](presentation-hillclimb/README.md)
 
-Suggested first demo:
+This demo shows the complete hillclimb:
 
 ```text
-first-photo-tutorial/
+initial screenshot -> generated variants -> reviews -> selected direction -> implementation ->
+implementation-seeded variants -> four screenshot/review/improvement rounds -> final comparison
 ```
 
-Why: it is generic, visual, easy to understand, and does not require private product context.
+Do not add partial examples to this folder. Partial examples make the repo look like a collection of
+claims instead of a repeatable process.
+
+Use `docs/demo-process.md` as the acceptance contract.

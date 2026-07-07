@@ -28,10 +28,7 @@ run, inspect, or trust.
 ## Before a PR
 
 - Run the relevant review skill on the changed artifact.
-- For the first-photo demo, verify:
-
-  ```sh
-  npm run capture:first-photo
-  ```
-
-- If image variants changed, record the prompt, outputs, and review in the demo folder.
+- If a demo changed, verify the demo-specific capture/generation scripts listed in that demo's
+  `run-log.md`.
+- If image variants changed, record the prompt, outputs, review, decision, and image-ledger entry in
+  the demo folder.

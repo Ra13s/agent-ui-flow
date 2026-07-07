@@ -1,181 +1,262 @@
-# Demo process
+# Demo Process
 
-The repo needs one complete, inspectable demo. Not just a README claim. The demo should show the
-artifact trail from rough idea to reviewed implementation, so a reader can see why this workflow is
-better than "ask AI to make a nice UI."
+This repo sells a hillclimbing workflow. A demo must show that workflow end to end.
 
-## Demo artifact chain
+The public demo page should be readable by itself, with images inline. The raw files are the audit
+trail. A reader should not need to open twenty files to understand what happened.
 
-Each demo lives under:
+## Publishable Demo Criteria
+
+A demo is publishable only if it contains all of these stages.
+
+### 1. Initial Problem
+
+Start with a clearly bad or mediocre real UI screenshot.
+
+Document:
+
+- what screen it is
+- what the user is trying to do
+- what is wrong in product terms
+- why this is a worthwhile hillclimb
+
+Acceptable problems include focus conflict, clutter, duplicated information, weak call to action,
+misplaced modules, poor hierarchy, overexplaining, low contrast, and visual drift from the intended
+product.
+
+### 2. Image Generation Round 1
+
+Generate at least three UI variants from the initial problem.
+
+The variants must explore different directions. Do not count small color swaps as separate
+directions.
+
+Required:
+
+- prompt stored verbatim
+- all generated images saved
+- review output for the whole batch
+- decision file explaining winner, losers, and harvested ideas
+
+### 3. Image Generation Round 2
+
+Use the selected Round 1 direction as the seed.
+
+Generate at least three more variants.
+
+Required:
+
+- prompt stored verbatim
+- all generated images saved
+- review output
+- comparison against the Round 1 winner
+- selected direction for implementation
+
+### 4. Implementation Pass
+
+Implement the selected direction as actual running UI.
+
+The public demo narrative should show screenshots, not code snippets. Code can exist in the repo,
+but the demo story is image-led.
+
+Required:
+
+- implementation instruction stored
+- screenshot of the running UI
+- notes on where implementation intentionally differs from the selected image
+
+### 5. Implementation-Seeded Image Generation
+
+Use the implemented UI screenshot as a new seed.
+
+Generate another set of at least three UI variants that improve the real implementation.
+
+Required:
+
+- source screenshot identified
+- prompt stored verbatim
+- all generated images saved
+- review output
+- selected changes to apply manually
+
+### 6. Four Improvement Rounds
+
+Run four implementation improvement rounds.
+
+Each round must contain:
+
+- current screenshot
+- visual review findings
+- before/after comparison against the previous round
+- explicit verdict: improved, regressed, or mixed
+- implementation changes made
+- new screenshot
+
+Suggested round focus:
+
+1. major focus and hierarchy
+2. clutter and repeated information
+3. spacing, typography, and contrast
+4. interaction affordances and final visual consistency
+
+### 7. Final Comparison
+
+Show the initial screenshot beside the final screenshot.
+
+Document:
+
+- what improved
+- what was intentionally rejected
+- what remains weak
+- whether the final result is good enough to ship, demo, or continue iterating
+
+## Documentation And Logging Requirements
+
+Every demo must be fully auditable.
+
+### Run Log
+
+Create one `run-log.md` for the whole demo.
+
+It must be chronological and record every major action:
+
+- prompt sent
+- images generated
+- review run
+- selection decision
+- implementation change
+- screenshot captured
+- comparison result
+
+Each entry links to the produced artifact.
+
+### Prompt Log
+
+Store every prompt verbatim:
+
+- image-generation prompts
+- reviewer-agent prompts or review scopes
+- implementation instructions
+
+Do not replace prompts with summaries.
+
+### Image Ledger
+
+Create `image-ledger.md`.
+
+Required columns:
+
+- id
+- round
+- type: generated, implementation screenshot, comparison, or final
+- source image, if any
+- prompt file
+- review file
+- verdict: rejected, selected, used partly, final
+- notes
+
+### Review Outputs
+
+Keep raw review outputs for:
+
+- every generated batch
+- every implementation screenshot
+- every before/after comparison
+
+Single-screen reviews and comparison reviews are separate artifacts.
+
+### Decision Log
+
+Every selected direction must say why it won.
+
+Every rejected direction must say why it lost.
+
+Every manual implementation change must point back to a review finding or selected image feature.
+
+### No Invisible Work
+
+If an image, review, or code change affected the final UI, it must appear in the log.
+
+If it is not logged, it does not count as part of the demo.
+
+## Required Folder Structure
+
+Use this structure unless there is a clear reason to extend it:
 
 ```text
 docs/demos/<demo-name>/
+  README.md
+  run-log.md
+  image-ledger.md
+  00-brief.md
+  01-initial/
+    screenshot.png
+    review.md
+  02-image-round-1/
+    prompt.md
+    variants/
+    review.md
+    decision.md
+  03-image-round-2/
+    prompt.md
+    variants/
+    review.md
+    comparison.md
+    decision.md
+  04-implementation-v1/
+    instruction.md
+    screenshot.png
+    review.md
+    changes.md
+  05-image-round-3-from-implementation/
+    source-screenshot.png
+    prompt.md
+    variants/
+    review.md
+    decision.md
+  06-implementation-round-1/
+    screenshot-before.png
+    review.md
+    comparison.md
+    changes.md
+    screenshot-after.png
+  07-implementation-round-2/
+    screenshot-before.png
+    review.md
+    comparison.md
+    changes.md
+    screenshot-after.png
+  08-implementation-round-3/
+    screenshot-before.png
+    review.md
+    comparison.md
+    changes.md
+    screenshot-after.png
+  09-implementation-round-4/
+    screenshot-before.png
+    review.md
+    comparison.md
+    changes.md
+    screenshot-after.png
+  10-final/
+    initial-vs-final.md
+    final-screenshot.png
+    remaining-issues.md
 ```
 
-Required files:
+## Public Demo README
 
-```text
-00-brief.md
-01-storyboard-draft.md
-02-storyboard-review.md
-03-storyboard-revised.md
-04-image-prompts.md
-05-image-variants/
-06-image-review.md
-07-selected-direction.md
-08-implementation-notes.md
-09-built-screenshots/
-10-built-review-round-1.md
-11-built-review-round-2.md
-12-final.md
-```
+The demo `README.md` must tell the story with images inline.
 
-## Stage 0 - Brief
+It should show:
 
-The brief is intentionally short:
+- initial problem screenshot
+- Round 1 generated variants
+- Round 2 generated variants
+- selected direction
+- first implementation screenshot
+- implementation-seeded generated variants
+- screenshots from the four improvement rounds
+- initial vs final comparison
 
-- product type
-- target user
-- flow goal
-- constraints
-- non-goals
-- existing screen, if any
-
-Example:
-
-```text
-Design a first-run tutorial for a photo coaching app. The user should take one ordinary photo, learn
-three tools through action, and leave ready to shoot another photo. Avoid welcome pages, generic
-account setup, and fake analytics.
-```
-
-## Stage 1 - Storyboard draft
-
-Write the first pass honestly, including the mistakes AI normally makes. This is important for the
-demo: the reader needs to see the review skill doing real work.
-
-The draft should include:
-
-- too much copy
-- at least one dead confirmation beat
-- at least one wrong-surface module
-- one payoff that tells instead of shows
-
-Do not make the draft intentionally stupid. Make it plausible.
-
-## Stage 2 - Storyboard review
-
-Run the text review panel from `.skills/storyboard/SKILL.md`.
-
-The review file should show:
-
-- findings grouped by reviewer scope
-- the strongest overlaps
-- accepted vs rejected findings
-- what will change
-
-Example format:
-
-```text
-Finding: B2 / "Tap the shutter button below..." / obvious text
-Decision: accepted
-Fix: delete; shutter click already advances
-```
-
-## Stage 3 - Revised storyboard
-
-Rewrite the storyboard after review.
-
-This file should be the implementation contract:
-
-- exact visible copy
-- exact beat sequence
-- branch results
-- no extra teaching copy
-
-## Stage 4 - Image generation
-
-Image generation is the exploratory jump.
-
-Generate three variants:
-
-1. conservative
-2. polished production
-3. wild but plausible
-
-The prompt must include the revised storyboard and must forbid adding product sections that do not
-exist in the storyboard.
-
-Image generation can happen before implementation or after a first static build. If it uses a
-built screenshot as the seed, say that explicitly in `04-image-prompts.md` and do not claim the
-generated image influenced the first build.
-
-## Stage 5 - Visual review: generated variants
-
-Run `visual-review` on each image variant.
-
-Then compare:
-
-```text
-variant / focus / clutter / information value / product fit / verdict
-```
-
-Do not pick the prettiest image. Pick the image whose ideas make the flow clearer.
-
-## Stage 6 - Selected direction
-
-Extract UI decisions from the winning image:
-
-- layout
-- component shapes
-- hierarchy
-- motion ideas
-- rejected visual ideas
-
-This becomes the implementation note.
-
-## Stage 7 - Implementation
-
-Implement the screen as closely as possible to:
-
-1. the revised storyboard
-2. the selected visual direction
-
-If implementation needs to differ, write the difference in `08-implementation-notes.md`.
-
-## Stage 8 - Visual review: built screenshots
-
-Take screenshots of the built UI.
-
-Run visual review against:
-
-- the built screenshot
-- the selected image variant
-- the revised storyboard
-
-Do at least two rounds:
-
-- round 1: major focus/clutter/hierarchy fixes
-- round 2: regression check and polish
-
-## Stage 9 - Final writeup
-
-The final file should answer:
-
-- What changed from draft to final?
-- Which reviewers caught the biggest issue?
-- Which image-gen idea survived into code?
-- What was rejected?
-- What would be done next?
-
-## Why this demo matters
-
-The selling point is not "AI made a UI." The selling point is that the process creates a chain of
-reviewable decisions:
-
-```text
-brief -> storyboard -> text review -> revised storyboard -> image variants -> visual review ->
-implementation -> built-screenshot review -> final
-```
-
-That chain is the product.
+Raw files should be linked as audit trail, not used as the main reading path.

@@ -7,8 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "capture:first-photo": "node scripts/capture-first-photo-demo.mjs",
-    "generate:first-photo-variants": "node scripts/generate-first-photo-variants.mjs"
+    "capture:presentation-hillclimb": "node scripts/capture-presentation-hillclimb-demo.mjs"
   },
   "devDependencies": {
     "playwright": "^1.57.0"
